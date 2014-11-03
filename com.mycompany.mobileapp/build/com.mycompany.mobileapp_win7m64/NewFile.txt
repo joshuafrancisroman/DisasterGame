@@ -1,0 +1,69 @@
+	public void on_pointer_press(SEPointerInfo pi) {
+		MainScene.score++;
+		if(tree.isEmpty()) {
+			switch_scene(new GameOver());
+		}
+		randomizer();
+		printer();
+	}
+
+	
+	public Scenario buildTree() {
+		Scenario temp = new Scenario();
+		temp.getPic() = add_sprite_for_image(SEImage.for_resource("hero"));
+		temp.getScn() = add_sprite_for_text("WTHS","style");
+		temp.getChoice(0) = add_sprite_for_text("WTH1","style");
+		temp.getChoice(1) =add_sprite_for_text("WTH2","style");
+		temp.getChoice(2) = add_sprite_for_text("WTH3","style");
+		temp.getChoice(3) = add_sprite_for_text("WTh4","style");
+		temp.getScene(0).getScn() = add_sprite_for_text("not empty","style");
+		return (temp);
+	}
+	
+		public void printer() {
+		tree.getPic().move(0.20*get_scene_width(),0.15*get_scene_height());
+		tree.getScn().move(0.25*get_scene_width(),0.4*get_scene_height());
+		tree.getChoice(0).move(0.3*get_scene_width(),0.5*get_scene_height());
+		tree.getChoice(1).move(0.3*get_scene_width(),0.6*get_scene_height());
+		tree.getChoice(2).move(0.3*get_scene_width(),0.7*get_scene_height());
+		tree.getChoice(3).move(0.3*get_scene_width(),0.8*get_scene_height());
+	}
+
+	
+	public void randomizer() {//randomize
+		int n;
+		double h = 0.5 * get_scene_height();
+		var choiceArr = Array.create();
+		choiceArr.append(tree.getChoice(0));
+		choiceArr.append(tree.getChoice(1));
+		choiceArr.append(tree.getChoice(2));
+		choiceArr.append(tree.getChoice(3));
+
+		var outArr = Array.create();
+		outArr.append(tree.getScene(0));
+		outArr.append(tree.getScene(0));
+		outArr.append(tree.getScene(0));
+		outArr.append(tree.getScene(0));
+		
+		for(n = 0; n < outArr.count(); n++) {//randomizer swapping
+			int random = Math.random(0,outArr.count());
+			
+			var outTemp = outArr.get(n); //generic data type
+			outArr.set(n, outArr.get(random));//no immediate override in eqela array. need to use set. start from 0 index
+			outArr.set(random, outTemp);
+
+			var choiceTemp = choiceArr.get(n);
+			choiceArr.set(n, choiceArr.get(random));
+			choiceArr.set(random, choiceTemp);
+		}
+
+		tree.getChoice(0) = (SESprite) choiceArr.get(0);
+		tree.getChoice(1) = (SESprite) choiceArr.get(1);
+		tree.getChoice(2) = (SESprite) choiceArr.get(2);
+		tree.getChoice(3) = (SESprite) choiceArr.get(3);
+		tree.getScene(0) = (Scenario) outArr.get(0);
+		tree.getScene(1) = (Scenario) outArr.get(1);
+		tree.getScene(2) = (Scenario) outArr.get(2);
+		tree.getScene(3) = (Scenario) outArr.get(3);
+	}
+}
