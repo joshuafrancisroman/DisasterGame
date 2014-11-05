@@ -18,6 +18,7 @@ public class MainScene :SEScene
 	}
 
 	public void on_pointer_press(SEPointerInfo pi) {
+		SESprite.remove(start1);
 		switch_scene(new ChoiceTree());
 		
 	}	

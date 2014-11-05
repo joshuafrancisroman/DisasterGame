@@ -16,7 +16,10 @@ public class Scenario
 	public SESprite choice2;
 	public SESprite choice3;
 	public SESprite choice4;
+	public int status=1;
 
+
+	
 	public Scenario() {
 		out1 = out2 = out3 = out4 = null;
 		pic = choice1 = choice2 = choice3 = choice4 = scene  = null;
@@ -25,7 +28,27 @@ public class Scenario
 	public bool isEmpty() {
 		return (scene == null);
 	}
+
 	
+	public void hide() {
+		scene.move(-1000000,-1000000);
+		pic.move(-1000000,-1000000);
+		choice1.move(-1000000,-1000000);
+		choice2.move(-1000000,-1000000);
+		choice3.move(-1000000,-1000000);
+		choice4.move(-1000000,-1000000);
+	}
+
+
+	public void remove() {
+		SESprite.remove(scene);
+		SESprite.remove(pic);
+		SESprite.remove(choice1);
+		SESprite.remove(choice2);
+		SESprite.remove(choice3);
+		SESprite.remove(choice4);
+	}
+
 
 	public SESprite getChoice(Scenario tree,int n) {
 		var Arr = Array.create();
