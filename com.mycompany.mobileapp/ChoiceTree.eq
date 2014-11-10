@@ -15,8 +15,7 @@ public class ChoiceTree : SEScene
 		base.initialize(rsc);
 		double w = 0.75*get_scene_width();
 		double h = 0.40*get_scene_height();
-
-				
+					
 		add_entity(SESpriteEntity.for_color(Color.instance("white"), get_scene_width(), get_scene_height()));
 		rsc.prepare_font("scene","arial bold color=black",0.05*get_scene_height());
 		rsc.prepare_font("style","arial bold color=black",0.04*get_scene_height());	
@@ -34,6 +33,22 @@ public class ChoiceTree : SEScene
 		rsc.prepare_image("fire","fire",w,h);
 		rsc.prepare_image("firedoor","firedoor",w,h);
 		rsc.prepare_image("fiery","fiery",w,h);
+		rsc.prepare_image("car","car",w,h);
+		rsc.prepare_image("volcano","volcano",w,h);
+		rsc.prepare_image("post","post",w,h);
+		rsc.prepare_image("glass","glass",w,h);
+		rsc.prepare_image("tripped","tripped",w,h);
+		rsc.prepare_image("bookcase","bookcase",w,h);
+		rsc.prepare_image("sandbag","sandbag",w,h);
+		rsc.prepare_image("caution","caution",w,h);
+		rsc.prepare_image("window","window",w,h);
+		rsc.prepare_image("upclose","upclose",w,h);
+		rsc.prepare_image("erupt","erupt",w,h);
+		rsc.prepare_image("mask","mask",w,h);
+		rsc.prepare_image("ash","ash",w,h);
+		rsc.prepare_image("food","food",w,h);
+		rsc.prepare_image("pet","pet",w,h);
+		rsc.prepare_image("radio","radio",w,h);
 		tree = new Scenario();
 		buildTree();
 		randomizer();
@@ -42,28 +57,43 @@ public class ChoiceTree : SEScene
 
 
 	public void buildTree(){
-		tree = createNode("que"," Pick your Disaster!","Earthquakes","Floods","Tornadoes","House Fires"); 
+		tree = createNode("que","Pick your Disaster","Earthquakes","Floods","Volcanic Eruption","House Fires"); 
 		tree.out1 = createNode("earth",  "You're on your car when disaster happens.","Stay put and wait for the shaking to stop.","Keep your foot on the gas until the shaking stops.","Calmly drive towards your house. ","Hastily, get out of the car.");
 		tree.out1.out1 = createNode("earthA", "The earthquake stopped. What now?", "Open the radio and check for damaged roads and structures", "Go out and jump to that pretty hole" , "Drive to your home" , "Kneel and face the sunset");
+		tree.out1.out2 = badending("car","You got in a car accident, always keep calm.");
 		tree.out1.out3 = createNode("earthB", "You got home but then there was an aftershock.", "Get under that sturdy dresser. ","Stay close to the shelf and windows.", "Run outside as fast as you can." ,"Stand strong and will yourself to be strong."); 
+		tree.out1.out4 = badending("post","There may be falling objects/structures after/during an earthquake.");
+		tree.out1.out3.out4 = badending("bookcase","Get under sturdy objects.");
 		tree.out1.out1.out3 = tree.out1.out3;
-		tree.out1.out1.out1 = ending("surviveEarth","You are a survivor! ");
+		tree.out1.out3.out2 = badending("glass","Do not go near fragile and unstable objects during an earthquake.");
+		tree.out1.out3.out3 = badending("tripped", "You fell/tripped.'It is usually safer to stay put' - Dr.Arthur Bradley");
+		tree.out1.out1.out1 = ending("surviveEarth","Tune to emergency radio and be wary of structures that may have been damaged");
 		tree.out1.out3.out1 = ending("dresser","That damn sturdy dresser!");
 
 
 		tree.out2 = createNode("flood", "You live near the river, Green Warning is reported via PAGASA.","Prepare the sandbags, Hold your fort!", "Bring all your stuff upstairs.","Sleep and hope the flood won't come.","Swim with the fishes");
-		tree.out2.out1 = ending("surviveEarth","The sandbags will block the water from entering!");
+		tree.out2.out1 = ending("sandbag","The sandbags will block the water from entering!");
 		tree.out2.out3 = badending("drown","You drowned while you we're sleeping.");
 		tree.out2.out2 = createNode("upstairs","After 5 mins you are still not finished but some water has entered.","Keep putting your things upstairs.", "Stay upstairs and wait for the rain to pass.", "Turn off all utilities and stay upstairs." ,"Go outside and assess the problem.");
-		tree.out2.out2.out3 = ending("surviveEarth","Closing all utilities is important because there could be live wires");
+		tree.out2.out2.out3 = ending("caution","Closing all utilities is important because there could be live wires");
 		tree.out2.out2.out1 = badending("elec","You got electrocuted because there is a live current!");
 		tree.out2.out2.out4 = tree.out2.out2.out1;
 		tree.out2.out2.out2 = ending("surviveEarth","Staying upstairs is the right choice when water comes inside");
 	
 		
-		//tree.out3 = new Scenario();
+		tree.out3 = createNode("volcano","You live near an active volcano, what will you prepare","Prepare gas masks and face cloths","Batteries and flashlights ","Matches and candles","All of the above and put in an accessible place");
+		tree.out3.out1 = tree.out3.out2 = tree.out3.out3 = tree.out3.out4 = createNode("erupt","The volcano erupted without prior notice","Cover your nose and mouth with a damp cloth","Close all the windows","Go towards the restricted zone area","Watch the erupting volcano up-close");
+		tree.out3.out1.out3 = tree.out3.out1.out4 = badending("upclose","Don't be this guy");
+		tree.out3.out1.out1 = ending("mask","Volcanic ash can irritate the respiratory system");
+		tree.out3.out1.out2 = createNode("ash","You are still indoors during the ashfall.","Listen to the radio for updates","Wait for the ashfall to stop, then scoop the ash from the roof.","Cover your food with containers.","Put your dog indoors.");
+		tree.out3.out1.out2.out1 = ending("radio","Listening to the radio during an emergency is good");
+		tree.out3.out1.out2.out2 = ending("ash","The ash could cause the roof to collapse");
+		tree.out3.out1.out2.out3 = ending("food","Covering the food will avoid ash contamination");
+		tree.out3.out1.out2.out4 = ending("pet","Animals should also not breathe ash");
+
+		
 		tree.out4 = createNode("fire","You woke up and there is smoke around your room.","While crouching,try to go outside the windows","While crouching, try to go outside the door","Pack your valuables before escaping.","Panic! Scream! Shout!");
-		tree.out4.out1 = ending("surviveEarth", "Doors are not the only means of escape!");
+		tree.out4.out1 = ending("window", "Doors are not the only means of escape!");
 		tree.out4.out2 = createNode("firedoor","You are infront of the door, what will you do?","Open the door and run towards the exit", "Check the door for heat or smoke" , "Go back to the window" , "Give up");
 		tree.out4.out2.out3 = tree.out4.out1;
 		tree.out4.out2.out1 = badending("firedoor", "There was a raging fire on the other side");
