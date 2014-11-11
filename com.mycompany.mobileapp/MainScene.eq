@@ -19,6 +19,7 @@ public class MainScene :SEScene
 
 	public void on_pointer_press(SEPointerInfo pi) {
 		SESprite.remove(start1);
+		add_entity(SESpriteEntity.for_color(Color.instance("white"), get_scene_width(), get_scene_height()));
 		switch_scene(new Pick());
 		
 	}	

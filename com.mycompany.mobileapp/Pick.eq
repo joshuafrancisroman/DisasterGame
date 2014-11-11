@@ -11,7 +11,9 @@ public class Pick : SEScene
 	SESprite bg2;
 	SESprite bg3;
 	SESprite bg4;
-	public void initialize(SEResourceCache rsc) {	
+	public void initialize(SEResourceCache rsc) {
+		base.initialize(rsc);
+		add_entity(SESpriteEntity.for_color(Color.instance("white"), get_scene_width(), get_scene_height()));	
 		rsc.prepare_image("bg1","bg1",0.5*get_scene_width(),0.5*get_scene_height());
 		
 		rsc.prepare_image("bg3","bg3",0.5*get_scene_width(),0.5*get_scene_height());
@@ -50,11 +52,8 @@ public class Pick : SEScene
 	
 		}
 		SESprite.remove(bg1);
-
 		SESprite.remove(bg2);
-		
 		SESprite.remove(bg3);
-		
 		SESprite.remove(bg4);
 		switch_scene(new ChoiceTree());
 	}
